@@ -1,0 +1,19 @@
+design
+module full_subtractor (A, B, Bin, D, Bout);
+  input A, B, Bin;
+  output D, Bout;
+
+  wire AxorB, nA, nAxorB, w1, w2;
+
+  xor (AxorB, A, B);        // A ⊕ B
+  xor (D, AxorB, Bin);      // D = A ⊕ B ⊕ Bin
+
+  not (nA, A);              // ~A
+  and (w1, nA, B);          // ~A & B
+
+  not (nAxorB, AxorB);      // ~(A ⊕ B)
+  and (w2, nAxorB, Bin);    // ~(A⊕B) & Bin
+
+  or (Bout, w1, w2);        // Borrow = w1 | w2
+
+endmodule
