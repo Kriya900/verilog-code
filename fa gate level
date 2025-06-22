@@ -1,0 +1,17 @@
+design
+module full_adder (A, B, Cin, Sum, Cout);
+  input A, B, Cin;
+  output Sum, Cout;
+
+  wire xor1, and1, and2, and3;
+
+  xor (xor1, A, B);            // First XOR: A ⊕ B
+  xor (Sum, xor1, Cin);        // Second XOR: (A ⊕ B) ⊕ Cin → gives Sum
+
+  and (and1, A, B);            // A & B
+  and (and2, B, Cin);          // B & Cin
+  and (and3, A, Cin);          // A & Cin
+
+  or  (Cout, and1, and2, and3); // Final carry-out: combine all three
+
+endmodule
