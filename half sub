@@ -1,0 +1,14 @@
+ Design 
+module half_subtractor (A, B, D, Bout);
+input A, B;
+output D, Bout;
+
+wire nA;
+
+not (nA, A);         // nA = ~A
+and (Bout, nA, B);   // Bout = ~A & B
+xor (D, A, B);       // D = A ⊕ B
+
+endmodule
+
+TESTBENCH
