@@ -1,0 +1,47 @@
+module tb_mux_1024_1;
+    reg [1023:0] in;
+    reg [9:0] sel;
+    wire out;
+
+    mux_1024_1 uut (
+        .in(in),
+        .sel(sel),
+        .out(out)
+    );
+    or mux_1024_1uut ( in,sel,out);
+
+    initial begin
+        in = 0;
+        sel = 0;
+
+        // Set input at position 7 to 1
+        in[7] = 1;
+        sel = 10'd7;
+        #10;
+
+        // Set input at position 512 to 1
+        in = 0;
+        in[512] = 1;
+        sel = 10'd512;
+        #10;
+
+        // Set input at position 1023 to 1
+        in = 0;
+        in[1023] = 1;
+        sel = 10'd1023;
+        #10;
+
+        $finish;
+    end
+endmodule
+
+design
+// Code your design here
+module mux_1024_1 (
+    input [1023:0] in,    // 1024 input lines
+    input [9:0] sel,      // 10-bit select line
+    output out            // Single output
+);
+    assign out = in[sel];
+endmodule
+ 
