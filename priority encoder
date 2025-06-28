@@ -1,0 +1,41 @@
+module priority_encoder_4to2(
+input [1:0] in;
+output reg [3:0] out;
+);
+always @(*)begin
+if (in[3]) out= 2'b11; // If input [3] =1 then output will be 11
+else if (in[2])out= 2'b10; // If input [2] = 1 then output will be 10
+else if (in[1]) out = 2'b01; // If input [1]=1 then output will be 01
+else if (in[0]) out = 2'b00; // If input [0] =1 then output will be 00
+else out = 2'b00;
+end
+endmodule
+
+module tb_priority_encoder_4to2;
+reg [1:0] in;
+wire [3:0] out;
+// Instantiate the priority encoder module
+priority_encoder_4to2 uut(in,out);
+// 🔁 Enable waveform dump
+
+$dumpfile ("priority_encoder_4to2.vcd");
+$dumpvars("0,tb_priority_encoder_4to2");
+initial begin
+ // 👀 Monitor signal changes
+$monitor ("Time = %0t |in =%b| out= %b" ,$time,in,out);
+ // 🧪 Test input combinations
+
+in = 4'b0000; #10
+$display ("in=%b,in=%b "in,out);
+in= 4'b1010; #10
+$display ("in=%b,in=%b "in,out);
+in = 4'b0011; #10
+$display ("in=%b,in=%b "in,out);
+in = 4'b0001; #10
+$display ("in=%b,in=%b "in,out);
+in = 4'b1000; #10
+$display ("in=%b,in=%b "in,out);
+$finish
+end
+endmodule
+
