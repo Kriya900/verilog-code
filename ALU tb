@@ -14,7 +14,6 @@ module ALU_Tb;
     $dumpvars(0, ALU_Tb);
   
     A=4'd5; B= 4'd3;
-    
     $monitor("Time = %0t|A =%d| B=%d|opcode= %b|result=%d |zero = %b" ,   $time,A,B,opcode,result,zero);
     opcode = 3'b000; #10;
     $display("A =%d,B= %d,opcode=%b,result =%d" , A,B,opcode,result);
@@ -31,4 +30,24 @@ module ALU_Tb;
       $finish;
   end
 endmodule
+module ALU(
+  input [7:0] A,
+  input [7:0] B,
+  input [2:0] opcode,
+  output reg[15:0] result,
+  output zero
+);
+  assign zero = (result==0);
+  always@(*)begin
+    case(opcode)
+      3'b000: result = A+B;//ADD
+      3'b001: result = A-B;//SUB
+      3'b010: result = A ^ B;//OR
+      3'b101: result = A|B; //XOR
+      3'b111: result =A *B; //MUL
+      default: result = 0 ;
+    endcase
+  end
+endmodule
+
     
