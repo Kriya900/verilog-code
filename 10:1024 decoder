@@ -11,13 +11,13 @@ module tb_decoder_10_1024;
     //Start automatic monitoring
     $monitor("Time= %0t|in=%d |out[%0d]=%0b", $Time,in,in,out[in]);
      // 🧪 Test vectors with display after each
-    in= 10'd0; #10
+    in= 10'd0; #10;
     $display ( "in=%d,out[%0d]=%b",in,in ,out[in]);
     in=10'd1; #10;
     $display ( "in=%d,out[%0d]=%b",in,in ,out[in]);
-    in =10'd512;  #10
+    in =10'd512;  #10;
         $display ( "in=%d,out[%0d]=%b",in,in ,out[in]);
-    in = 10'd1023;    #10
+    in = 10'd1023;    #10;
     $display ( "in=%d,out[%0d]=%b",in,in ,out[in]);
     $finish;
   end
