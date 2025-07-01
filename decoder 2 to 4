@@ -1,0 +1,28 @@
+module decoder_2to4 (
+  input [1:0] in,
+  input enable,
+  output [3:0] out
+);
+
+  assign out = (enable == 1) ? (4'b0001 << in) : 4'b0000;
+
+endmodule
+ 
+module tb_decoder_2to4;
+  reg[1:0] in;
+  reg Enable;
+  wire [3:0] out;
+  
+  decoder_2to4 uut(in,Enable,out);
+  initial begin
+    $display("Enable in | out");
+    Enable = 1;
+    
+    in = 2'b00  ;#10; $display("%b %b | %b ",in, Enable,out);
+    in = 2'b01; #10; $display("%b %b | %b ",in, Enable,out);
+    in = 2'b10;#10;  $display("%b %b | %b ",in, Enable,out);
+    in = 2'b11 ; #10; $display("%b %b | %b ",in, Enable,out);
+    Enable = 0; in = 2'b00;#10; $display ("%b %b | %b ",in, Enable,out);
+    $finish;
+  end 
+endmodule
