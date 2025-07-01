@@ -1,0 +1,38 @@
+module FullAdder_tb;
+    reg A, B, Cin;
+    wire Sum, Cout;
+
+    FullAdder FA(A, B, Cin, Sum, Cout);
+
+    initial begin
+        $dumpfile("fa.vcd");
+        $dumpvars(0, FullAdder_tb);
+        $display("A B Cin | Sum Cout");
+
+        A=0; B=0; Cin=0; #10; $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=0; B=0; Cin=1; #10; $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=0; B=1; Cin=0; #10; $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=0; B=1; Cin=1; #10; $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=1; B=0; Cin=0; #10; $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=1; B=0; Cin=1; #10; $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=1; B=1; Cin=0; #10; $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=1; B=1; Cin=1; #10; $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+
+        $finish;
+    end
+endmodule
+// Half Adder Module
+module HalfAdder(input A, input B, output Sum, output Carry);
+    assign Sum = A ^ B;      // XOR gate gives the Sum
+    assign Carry = A & B;    // AND gate gives the Carry
+endmodule
+
+// Full Adder Module
+module FullAdder(input A, input B, input Cin, output Sum, output Cout);
+    wire s1, c1, c2;
+
+    HalfAdder HA1(A, B, s1, c1);       // First half adder: adds A and B
+    HalfAdder HA2(s1, Cin, Sum, c2);   // Second half adder: adds s1 and Cin
+
+    assign Cout = c1 | c2;             // Final Carry is OR of both half adder carries
+endmodule
