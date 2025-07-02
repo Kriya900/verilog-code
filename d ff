@@ -1,0 +1,56 @@
+module d_ff (
+  input clk,
+  input rst,       // asynchronous active high reset
+  input d,
+  output reg q
+);
+
+  always @(posedge clk or posedge rst) begin
+    if (rst)
+      q <= 1'b0;
+    else
+      q <= d;
+  end
+
+endmodule
+module tb_d_ff;
+  reg clk, rst, d;
+  wire q;
+
+  d_ff uut (.clk(clk), .rst(rst), .d(d), .q(q));
+
+  // Clock generation
+  always #5 clk = ~clk;
+
+  initial begin
+    $display("Time\tclk\trst\td\tq");
+    $monitor("%0t\t%b\t%b\t%b\t%b", $time, clk, rst, d, q);
+
+    clk = 0; rst = 1; d = 0;
+    #10 rst = 0; d = 1;
+    #10 d = 0;
+    #10 d = 1;
+    #10 rst = 1;
+    #10 rst = 0; d = 0;
+    #10 $finish;
+  end
+endmodule
+module tb_d_ff;
+  reg clk, d;
+  wire q;
+
+  d_ff uut(clk, d, q);
+
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk; // clock toggle every 5 time units
+  end
+
+  initial begin
+    d = 0;
+    #10 d = 1;
+    #10 d = 0;
+    #10 d = 1;
+    #10 $finish;
+  end
+endmodule
