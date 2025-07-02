@@ -1,0 +1,33 @@
+module tb_jk_ff;
+  reg j,k,clk;
+  wire q;
+  jk_ff uut( j,k,clk,q);
+       always #5 clk = ~clk;
+
+  
+  initial begin
+        $display("Time\tj\tk\tclk\tq");
+    $monitor("%0t\t%b\t%b\t%b\t%b", $time, j, k, clk, q);
+    clk = 0;  
+    j = 0; k=0 ; #10;
+    j= 0;k=1; #10;
+   j= 1;k=0; #10;
+   j=1;k=1; #10;
+j =1; k=1;#10;
+    $finish;
+  end
+endmodule
+module jk_ff(input j,input k , input clk, output reg q);
+  always@(posedge clk)begin;
+    if (j==0 & k==0) 
+      q<=q;
+    else if( j==0 & k==1 )
+      q<=0;
+    else if (j==1 & k== 0)
+      q<=1;
+    else if (j == 1 & k==1)
+      q<=~ q;
+  end 
+endmodule
+
+  
