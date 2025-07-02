@@ -1,0 +1,22 @@
+always begin
+  forever #5 clk = ~clk;
+end
+or just:
+
+
+always #5 clk = ~clk;   always @(posedge clk) begin
+  // JK flip-flop logic
+end
+Use forever in testbench only for generating signals or looping test cases.
+Never use forever in design logic — use always @(posedge clk) instead.
+Uses \t (tab) for nice spacing between values.
+🔹 5. $display("Time = %0t\tj = %b\tclk = %b\tq = %b", time, j, clk, q);
+🔹 4. $display("Time, j, clk, q");
+🔹 3. $display("Time\tj\tclk\tq");
+🔹 2. $display("Time = %0t, j = %b, clk = %b, q = %b", time, j, clk, q);
+
+
+
+
+
+
