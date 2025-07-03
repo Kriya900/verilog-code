@@ -1,0 +1,35 @@
+module tb_T_ff;
+  reg rst;
+  reg clk;
+  reg T;
+  
+  wire q;
+  T_ff uut ( rst ,clk,T,q);
+  always #5 clk =~clk;
+  initial begin
+    $display("Time\trst\tclk\tT\tq");
+    $monitor("%0t\t%b\t%b\t%b\t%b", $time,rst,clk,T,q);
+    clk=0;T=0;rst=1; #10;// reset
+    rst=0;T=1;#10;//Toggle
+    T=0;#10;//Hold
+    T=1;#10;//toggle again
+    T=0; #10;//hold
+    T=1;#10;//Toggle
+    $finish;
+  end
+endmodule
+module T_ff(
+  input rst,
+  input clk,
+  input T,
+  output reg q
+  );
+  always @(posedge rst or posedge clk)begin
+    if (rst)
+      q<=0;
+    else if (T)
+      q<= ~q;//if T =1 then toggle q
+    else 
+      q<= q;
+  end
+endmodule
