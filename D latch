@@ -1,0 +1,30 @@
+module tb_D_latch;
+  reg En,D;
+  wire q;
+  D_latch uut ( En,D,q);
+    
+    initial begin
+      $display("Time\tEn\tD\tq");
+      $monitor("%0t\t%b\t%b\t%b",$time, En,D,q);
+
+      En=0; D=0;#10;
+    En = 1; D = 1; #10;  // Q should become 1
+    En = 1; D = 0; #10;  // Q should become 0
+    En = 0; D = 1; #10;  // Q should hold 0
+    En = 1; D = 1; #10;  // Q should become 1
+      $finish;
+    end
+endmodule
+
+module D_latch(
+  input En,
+  input D,
+  output reg q
+);
+  always @(D or En)begin
+    if (En)
+      q<=D;
+    else 
+      q<=q;
+  end
+endmodule
