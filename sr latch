@@ -1,0 +1,32 @@
+module tb_sr_latch;
+  reg S, R;
+  wire Q;
+
+  sr_latch uut(S, R, Q);
+
+  initial begin
+    $display("Time\tS\tR\tQ");
+    $monitor("%0t\t%b\t%b\t%b", $time, S, R, Q);
+
+    S = 0; R = 0; #10;  // Hold
+    S = 1; R = 0; #10;  // Set
+    S = 0; R = 0; #10;  // Hold
+    S = 0; R = 1; #10;  // Reset
+    S = 1; R = 1; #10;  // Invalid
+    $finish;
+  end
+endmodule
+module sr_latch(S, R, Q);
+  input S, R;
+  output reg Q;
+
+  always @ (S or R) begin
+    if (S == 1 && R == 0)
+      Q = 1;      // Set
+    else if (S == 0 && R == 1)
+      Q = 0;      // Reset
+    else if (S == 1 && R == 1)
+      Q = 1'bx;   // Invalid
+    // S = 0, R = 0 → Q holds previous value (no change)
+  end
+endmodule
