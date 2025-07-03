@@ -1,0 +1,40 @@
+module tb_sr_ff;
+  reg clk, rst, S, R;
+  wire Q;
+
+  sr_ff uut(clk, rst, S, R, Q);
+
+  // Clock generator
+  always #5 clk = ~clk;
+
+  initial begin
+    $display("Time\tclk\trst\tS\tR\tQ");
+    $monitor("%0t\t%b\t%b\t%b\t%b\t%b", $time, clk, rst, S, R, Q);
+
+    clk = 0; rst = 1; S = 0; R = 0; #10;  // Apply reset
+    rst = 0; S = 1; R = 0; #10;           // Set
+    S = 0; R = 1; #10;                    // Reset
+    S = 0; R = 0; #10;                    // Hold
+    S = 1; R = 1; #10;                    // Invalid
+    $finish;
+  end
+endmodule
+module sr_ff (
+  input clk,      // Clock
+  input rst,      // Asynchronous Reset
+  input S, R,     // Set and Reset inputs
+  output reg Q    // Output
+);
+
+  always @(posedge clk or posedge rst) begin
+    if (rst)
+      Q <= 0;                   // Reset output to 0
+    else if (S && ~R)
+      Q <= 1;                   // Set
+    else if (~S && R)
+      Q <= 0;                   // Reset
+    else if (S && R)
+      Q <= 1'bx;                // Invalid condition
+    // else Q remains same (hold)
+  end
+endmodule
