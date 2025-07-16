@@ -1,7 +1,21 @@
+In=0000 | clk=0 | Out=xxxx
+# In=0101 | clk=1 | Out=0101
+# In=1011 | clk=0 | Out=0101
+# In=1111 | clk=1 | Out=1111
+# In=1111 | clk=0 | Out=1111
+# In=0010 | clk=1 | Out=0010
+# In=0010 | clk=0 | Out=0010
+# In=0010 | clk=1 | Out=0010
+# In=0010 | clk=0 | Out=0010
+# In=0010 | clk=1 | Out=0010
+# In=0010 | clk=0 | Out=0010
+# In=0010 | clk=1 | Out=0010
+# In=0010 | clk=0 | Out=0010
+# In=0010 | clk=1 | Out=0010
+# In=0010 | clk=0 | Out=0010
 `timescale 1ns / 1ps
 
-module tb_pipo();
-reg [3:0] in;
+module tb_pipo();                                                                     
 reg clk;
 wire [3:0] out;
 
