@@ -1,0 +1,91 @@
+// 4-bit Modulo-12 Counter with Asynchronous Reset and Flag
+module mod_12_counter(clk, rst, count, flag);
+  input clk;         // Clock input
+  input rst;         // Asynchronous Reset input
+  output reg [3:0] count; // 4-bit counter output
+  output reg flag;        // Flag becomes 1 when counter hits 11 (mod-12 wrap)
+
+  // Always block triggered on rising edge of clk or rst
+  always @(posedge clk or posedge rst) begin
+    if (rst) begin
+      // If reset is active, reset counter and flag
+      count <= 4'b0000;
+      flag <= 0;
+    end else begin
+      if (count == 4'd11) begin
+        // If count is 11, reset counter to 0 and set flag
+        count <= 4'b0000;
+        flag <= 1;
+      end else begin
+        // Else, increment counter and reset flag
+        count <= count + 1;
+        flag <= 0;
+      end
+    end
+  end
+endmodule
+// Testbench for Mod-12 Counter
+module mod_12_counter_tb;
+
+  reg clk, rst;            // Testbench signals
+  wire [3:0] count;        // Output from DUT
+  wire flag;               // Output from DUT
+
+  // Instantiate the Design Under Test (DUT)
+  mod_12_counter uut(clk, rst, count, flag);
+
+  // Generate a clock with 2 time units period
+  initial clk = 0;
+  always #1 clk = ~clk;
+
+  initial begin
+    // Monitor the outputs continuously
+    $monitor("t=%0t | clk=%b | rst=%b | count=%d | flag=%b", $time, clk, rst, count, flag);
+    
+    // Apply reset at time 0–2
+    rst = 1;
+    #2;
+    rst = 0;
+
+    // Run simulation for some time and stop
+    #30;
+    $finish;
+  end
+endmodule
+# t=0| clk=x|rst=x|count=xxxx|flag=x
+# t=1| clk=0|rst=0|count=xxxx|flag=x
+# t=2| clk=1|rst=0|count=xxxx|flag=0
+# t=3| clk=0|rst=0|count=xxxx|flag=0
+# t=4| clk=1|rst=1|count=0000|flag=0
+# t=5| clk=0|rst=1|count=0000|flag=0
+# t=6| clk=1|rst=1|count=0000|flag=0
+# t=7| clk=0|rst=1|count=0000|flag=0
+# t=8| clk=1|rst=1|count=0000|flag=0
+# t=9| clk=0|rst=0|count=0000|flag=0
+# t=10| clk=1|rst=0|count=0001|flag=0
+# t=11| clk=0|rst=0|count=0001|flag=0
+# t=12| clk=1|rst=0|count=0010|flag=0
+# t=13| clk=0|rst=0|count=0010|flag=0
+# t=14| clk=1|rst=0|count=0011|flag=0
+# t=15| clk=0|rst=0|count=0011|flag=0
+# t=16| clk=1|rst=0|count=0100|flag=0
+# t=17| clk=0|rst=0|count=0100|flag=0
+# t=18| clk=1|rst=0|count=0101|flag=0
+# t=19| clk=0|rst=0|count=0101|flag=0
+# t=20| clk=1|rst=0|count=0110|flag=0
+# t=21| clk=0|rst=0|count=0110|flag=0
+# t=22| clk=1|rst=0|count=0111|flag=0
+# t=23| clk=0|rst=0|count=0111|flag=0
+# t=24| clk=1|rst=0|count=1000|flag=0
+# t=25| clk=0|rst=0|count=1000|flag=0
+# t=26| clk=1|rst=0|count=1001|flag=0
+# t=27| clk=0|rst=0|count=1001|flag=0
+# t=28| clk=1|rst=0|count=1010|flag=0
+# t=29| clk=0|rst=0|count=1010|flag=0
+# t=30| clk=1|rst=0|count=1011|flag=0
+# t=31| clk=0|rst=0|count=1011|flag=0
+# t=32| clk=1|rst=0|count=0000|flag=1
+# t=33| clk=0|rst=0|count=0000|flag=1
+# t=34| clk=1|rst=0|count=0001|flag=0
+# t=35| clk=0|rst=0|count=0001|flag=0
+
