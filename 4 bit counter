@@ -1,0 +1,69 @@
+module tb_counter_4bit;
+
+  reg clk, rst;
+  wire [3:0] count;
+
+  counter_4bit uut(clk, rst, count);
+
+  initial clk = 0;
+  always #5 clk = ~clk;
+
+  initial begin
+    $monitor("Time = %0t | clk = %b | rst = %b | count = %b", $time, clk, rst, count);
+    rst = 1;  #3;
+    rst = 0;  #50;
+    $finish;
+  end
+endmodule
+module counter_4bit (
+  input clk,
+  input rst,          // asynchronous active-high reset
+  output reg [3:0] count
+);
+
+always @(posedge clk or posedge rst) begin
+  if (rst)
+    count <= 4'b0000; // reset count
+  else
+    count <= count + 1; // increment
+end
+endmodule
+# t=0| clk=x|rst=x|count=xxxx
+# t=1| clk=0|rst=0|count=xxxx
+# t=2| clk=1|rst=0|count=xxxx
+# t=3| clk=0|rst=0|count=xxxx
+# t=4| clk=1|rst=1|count=0000
+# t=5| clk=0|rst=1|count=0000
+# t=6| clk=1|rst=1|count=0000
+# t=7| clk=0|rst=1|count=0000
+# t=8| clk=1|rst=1|count=0000
+# t=9| clk=0|rst=0|count=0001
+# t=10| clk=1|rst=0|count=0010
+# t=11| clk=0|rst=0|count=0010
+# t=12| clk=1|rst=0|count=0011
+# t=13| clk=0|rst=0|count=0011
+# t=14| clk=1|rst=0|count=0100
+# t=15| clk=0|rst=0|count=0100
+# t=16| clk=1|rst=0|count=0101
+# t=17| clk=0|rst=0|count=0101
+# t=18| clk=1|rst=0|count=0110
+# t=19| clk=0|rst=0|count=0110
+# t=20| clk=1|rst=0|count=0111
+# t=21| clk=0|rst=0|count=0111
+# t=22| clk=1|rst=0|count=1000
+# t=23| clk=0|rst=0|count=1000
+# t=24| clk=1|rst=0|count=1001
+# t=25| clk=0|rst=0|count=1001
+# t=26| clk=1|rst=0|count=1010
+# t=27| clk=0|rst=0|count=1010
+# t=28| clk=1|rst=0|count=1011
+# t=29| clk=0|rst=0|count=1011
+# t=30| clk=1|rst=0|count=1100
+# t=31| clk=0|rst=0|count=1100
+# t=32| clk=1|rst=0|count=1101
+# t=33| clk=0|rst=0|count=1101
+# t=34| clk=1|rst=0|count=1110
+# t=35| clk=0|rst=0|count=1110
+# t=36| clk=1|rst=0|count=1111
+# t=37| clk=0|rst=0|count=1111
+# t=38| clk=1|rst=0|count=0000
