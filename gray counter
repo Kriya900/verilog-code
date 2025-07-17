@@ -1,0 +1,65 @@
+ // Clock generation
+  initial begin
+    clk = 0;              // Initialize clk
+    forever #2 clk = ~clk;
+  end
+
+  // Stimulus
+  initial begin
+    $monitor("time=%0t | clk=%b | rst=%b | gray=%b", $time, clk, rst, gray);
+    #0; rst = 0;clk=0;
+    #1; rst = 1;
+    #5; rst = 1;
+    #6; rst = 0;
+    #7 ;rst = 1;
+    #8; rst=0;
+    #20; $finish;
+  end
+endmodule
+module gray_counter(
+  input clk,
+  input rst,         // Asynchronous reset
+  output [3:0] gray  // Gray code output
+);
+  reg [3:0] binary;
+  // Binary counter with async reset
+  always @(posedge clk or posedge rst) begin
+    if (rst)
+      binary <= 4'b0000;
+    else
+      binary <= binary + 1;
+  end
+  // Binary to Gray conversion using assign
+  assign gray[3] = binary[3];
+  assign gray[2] = binary[3] ^ binary[2];
+  assign gray[1] = binary[2] ^ binary[1];
+  assign gray[0] = binary[1] ^ binary[0];
+
+endmodule
+# time=0 | clk=0 | rst=0 | gray=xxxx
+# time=1 | clk=0 | rst=1 | gray=0000
+# time=2 | clk=1 | rst=1 | gray=0000
+# time=4 | clk=0 | rst=1 | gray=0000
+# time=6 | clk=1 | rst=1 | gray=0000
+# time=8 | clk=0 | rst=1 | gray=0000
+# time=10 | clk=1 | rst=1 | gray=0000
+# time=12 | clk=0 | rst=0 | gray=0000
+# time=14 | clk=1 | rst=0 | gray=0001
+# time=16 | clk=0 | rst=0 | gray=0001
+# time=18 | clk=1 | rst=0 | gray=0011
+# time=19 | clk=1 | rst=1 | gray=0000
+# time=20 | clk=0 | rst=1 | gray=0000
+# time=22 | clk=1 | rst=1 | gray=0000
+# time=24 | clk=0 | rst=1 | gray=0000
+# time=26 | clk=1 | rst=1 | gray=0000
+# time=27 | clk=1 | rst=0 | gray=0000
+# time=28 | clk=0 | rst=0 | gray=0000
+# time=30 | clk=1 | rst=0 | gray=0001
+# time=32 | clk=0 | rst=0 | gray=0001
+# time=34 | clk=1 | rst=0 | gray=0011
+# time=36 | clk=0 | rst=0 | gray=0011
+# time=38 | clk=1 | rst=0 | gray=0010
+# time=40 | clk=0 | rst=0 | gray=0010
+# time=42 | clk=1 | rst=0 | gray=0110
+# time=44 | clk=0 | rst=0 | gray=0110
+# time=46 | clk=1 | rst=0 | gray=0111
