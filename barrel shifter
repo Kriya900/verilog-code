@@ -1,0 +1,36 @@
+module barrel_shifter_8_bit (data_in,shift_amt,dir,data_out);
+  input [7:0] data_in;//data input
+  input [2:0] shift_amt;
+  input dir; //Direction :0 for right ,1 for left
+  output reg[7:0] data_out; //data output
+  always@(*) begin
+    if (dir) begin
+      data_out= data_in<< shift_amt;
+    end else begin
+      data_out= data_in>> shift_amt;
+    end
+  end
+endmodule
+module barrel_shifter_8_bit_tb;
+  reg [7:0] data_in;
+  reg [2:0] shift_amt;
+  reg dir;
+  wire [7:0] data_out;
+  barrel_shifter_8_bit uut( data_in,shift_amt,dir,data_out);
+  initial begin
+    $monitor("time=%0t|data_in=%b|shift_amt=%d|dir=%b|data_out=%b",$time,data_in,shift_amt,dir,data_out);
+  #1;data_in=0;shift_amt=0;dir=0;
+    #5;data_in=8'b10101010;dir=1;
+    #6;shift_amt=3;
+    #7;shift_amt=7;
+    #8;shift_amt=5;dir=0;
+    #50;
+    $finish;
+  end
+endmodule
+    # time=0|data_in=xxxxxxxx|shift_amt=x|dir=x|data_out=xxxxxxxx
+# time=1|data_in=00000000|shift_amt=0|dir=0|data_out=00000000
+# time=6|data_in=10101010|shift_amt=0|dir=1|data_out=10101010
+# time=12|data_in=10101010|shift_amt=3|dir=1|data_out=01010000
+# time=19|data_in=10101010|shift_amt=7|dir=1|data_out=00000000
+# time=27|data_in=10101010|shift_amt=5|dir=0|data_out=00000101
