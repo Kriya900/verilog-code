@@ -1,0 +1,85 @@
+module asyn_decode_tb;
+  reg rst;
+  reg clk;
+  wire [3:0] count;
+  wire decode_out;
+  //named instantiation
+  asyn_decode uut(rst,clk,count,decode_out);
+  always #1 clk=~clk;
+  initial begin
+    #2;clk=0;rst=0;
+    $monitor("time=%0t| rst=%b|clk=%b| count=%d| decode_out=%b",$time,rst,clk,count,decode_out);
+    #5;rst=1;
+    #10;rst=0;
+    #50;
+    $finish;
+  end
+endmodule
+ module asyn_decode(
+  input rst,
+  input clk,
+  output reg[3:0] count,
+  output reg decode_out
+);
+  always@(posedge clk or posedge rst) begin
+    if (rst) 
+      count<= 0;
+      else 
+      count<= count+1;
+  end
+  always@(*)begin
+      if (count== 4'b1111)
+        decode_out=1;
+      
+       else 
+        decode_out=0;
+      end
+endmodule
+output-
+    # time=3| rst=0|clk=0| count= x| decode_out=x
+# time=4| rst=0|clk=1| count= x| decode_out=x
+# time=5| rst=0|clk=0| count= x| decode_out=x
+# time=6| rst=0|clk=1| count= x| decode_out=x
+# time=7| rst=1|clk=0| count= 0| decode_out=0
+# time=8| rst=1|clk=1| count= 0| decode_out=0
+# time=9| rst=1|clk=0| count= 0| decode_out=0
+# time=10| rst=1|clk=1| count= 0| decode_out=0
+# time=11| rst=1|clk=0| count= 0| decode_out=0
+# time=12| rst=1|clk=1| count= 0| decode_out=0
+# time=13| rst=1|clk=0| count= 0| decode_out=0
+# time=14| rst=1|clk=1| count= 0| decode_out=0
+# time=15| rst=1|clk=0| count= 0| decode_out=0
+# time=16| rst=1|clk=1| count= 0| decode_out=0
+# time=17| rst=0|clk=0| count= 0| decode_out=0
+# time=18| rst=0|clk=1| count= 1| decode_out=0
+# time=19| rst=0|clk=0| count= 1| decode_out=0
+# time=20| rst=0|clk=1| count= 2| decode_out=0
+# time=21| rst=0|clk=0| count= 2| decode_out=0
+# time=22| rst=0|clk=1| count= 3| decode_out=0
+# time=23| rst=0|clk=0| count= 3| decode_out=0
+# time=24| rst=0|clk=1| count= 4| decode_out=0
+# time=25| rst=0|clk=0| count= 4| decode_out=0
+# time=26| rst=0|clk=1| count= 5| decode_out=0
+# time=27| rst=0|clk=0| count= 5| decode_out=0
+# time=28| rst=0|clk=1| count= 6| decode_out=0
+# time=29| rst=0|clk=0| count= 6| decode_out=0
+# time=30| rst=0|clk=1| count= 7| decode_out=0
+# time=31| rst=0|clk=0| count= 7| decode_out=0
+# time=32| rst=0|clk=1| count= 8| decode_out=0
+# time=33| rst=0|clk=0| count= 8| decode_out=0
+# time=34| rst=0|clk=1| count= 9| decode_out=0
+# time=35| rst=0|clk=0| count= 9| decode_out=0
+# time=36| rst=0|clk=1| count=10| decode_out=0
+# time=37| rst=0|clk=0| count=10| decode_out=0
+# time=38| rst=0|clk=1| count=11| decode_out=0
+# time=39| rst=0|clk=0| count=11| decode_out=0
+# time=40| rst=0|clk=1| count=12| decode_out=0
+# time=41| rst=0|clk=0| count=12| decode_out=0
+# time=42| rst=0|clk=1| count=13| decode_out=0
+# time=43| rst=0|clk=0| count=13| decode_out=0
+# time=44| rst=0|clk=1| count=14| decode_out=0
+# time=45| rst=0|clk=0| count=14| decode_out=0
+# time=46| rst=0|clk=1| count=15| decode_out=1
+# time=47| rst=0|clk=0| count=15| decode_out=1
+  
+      
