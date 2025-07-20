@@ -1,0 +1,255 @@
+module digital_clock(
+  input rst,
+  input clk,
+  output reg [4:0] hours,
+  output reg [5:0]minutes,
+  output reg [5:0]seconds
+);
+  always@(posedge rst or posedge clk)begin
+    if(rst)begin
+      seconds<=0;
+      minutes<=0;
+      hours<=0;
+    end else begin
+      if (seconds==59)begin//increment seconds
+        seconds <=0;
+      if (minutes==59)begin //increment minutes
+      minutes<=0;
+        if  (hours==23)begin
+      hours<=0; //increment hours
+          end else begin
+      hours<= hours+1;
+          end
+    end else begin
+      minutes<=minutes+1;
+    end
+    end else begin
+      seconds<= seconds +1;
+    end
+  end 
+    end
+    endmodule
+// Code your testbench here
+// or browse Examples
+module digital_clock_tb;
+  reg rst;
+  reg clk;
+  wire [4:0] hours;
+  wire [5:0] minutes;
+  wire [5:0] seconds;
+
+  // Correct instantiation of DUT
+  digital_clock uut (
+    .rst(rst),
+    .clk(clk),
+    .hours(hours),
+    .minutes(minutes),
+    .seconds(seconds)
+  );
+
+  initial clk = 0;
+  always #1 clk = ~clk;
+
+  initial begin
+    // ✅ Make sure the format specifiers match the signals!
+    $monitor("%0t | rst=%b | clk=%b | hours=%0d | minutes=%0d | seconds=%0d",
+              $time,     rst,     clk,       hours,         minutes,        seconds);
+    rst = 1; #2;
+    rst = 0; #5000;
+    $finish;
+  end
+endmodule
+onds=23
+# 2809 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=24
+# 2810 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=24
+# 2811 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=25
+# 2812 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=25
+# 2813 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=26
+# 2814 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=26
+# 2815 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=27
+# 2816 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=27
+# 2817 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=28
+# 2818 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=28
+# 2819 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=29
+# 2820 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=29
+# 2821 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=30
+# 2822 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=30
+# 2823 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=31
+# 2824 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=31
+# 2825 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=32
+# 2826 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=32
+# 2827 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=33
+# 2828 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=33
+# 2829 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=34
+# 2830 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=34
+# 2831 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=35
+# 2832 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=35
+# 2833 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=36
+# 2834 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=36
+# 2835 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=37
+# 2836 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=37
+# 2837 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=38
+# 2838 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=38
+# 2839 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=39
+# 2840 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=39
+# 2841 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=40
+# 2842 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=40
+# 2843 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=41
+# 2844 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=41
+# 2845 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=42
+# 2846 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=42
+# 2847 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=43
+# 2848 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=43
+# 2849 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=44
+# 2850 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=44
+# 2851 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=45
+# 2852 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=45
+# 2853 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=46
+# 2854 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=46
+# 2855 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=47
+# 2856 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=47
+# 2857 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=48
+# 2858 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=48
+# 2859 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=49
+# 2860 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=49
+# 2861 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=50
+# 2862 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=50
+# 2863 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=51
+# 2864 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=51
+# 2865 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=52
+# 2866 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=52
+# 2867 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=53
+# 2868 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=53
+# 2869 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=54
+# 2870 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=54
+# 2871 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=55
+# 2872 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=55
+# 2873 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=56
+# 2874 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=56
+# 2875 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=57
+# 2876 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=57
+# 2877 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=58
+# 2878 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=58
+# 2879 | rst=0 | clk=1 | hours=0 | minutes=23 | seconds=59
+# 2880 | rst=0 | clk=0 | hours=0 | minutes=23 | seconds=59
+# 2881 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=0
+# 2882 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=0
+# 2883 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=1
+# 2884 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=1
+# 2885 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=2
+# 2886 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=2
+# 2887 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=3
+# 2888 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=3
+# 2889 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=4
+# 2890 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=4
+# 2891 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=5
+# 2892 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=5
+# 2893 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=6
+# 2894 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=6
+# 2895 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=7
+# 2896 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=7
+# 2897 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=8
+# 2898 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=8
+# 2899 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=9
+# 2900 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=9
+# 2901 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=10
+# 2902 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=10
+# 2903 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=11
+# 2904 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=11
+# 2905 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=12
+# 2906 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=12
+# 2907 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=13
+# 2908 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=13
+# 2909 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=14
+# 2910 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=14
+# 2911 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=15
+# 2912 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=15
+# 2913 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=16
+# 2914 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=16
+# 2915 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=17
+# 2916 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=17
+# 2917 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=18
+# 2918 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=18
+# 2919 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=19
+# 2920 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=19
+# 2921 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=20
+# 2922 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=20
+# 2923 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=21
+# 2924 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=21
+# 2925 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=22
+# 2926 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=22
+# 2927 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=23
+# 2928 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=23
+# 2929 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=24
+# 2930 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=24
+# 2931 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=25
+# 2932 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=25
+# 2933 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=26
+# 2934 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=26
+# 2935 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=27
+# 2936 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=27
+# 2937 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=28
+# 2938 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=28
+# 2939 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=29
+# 2940 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=29
+# 2941 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=30
+# 2942 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=30
+# 2943 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=31
+# 2944 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=31
+# 2945 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=32
+# 2946 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=32
+# 2947 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=33
+# 2948 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=33
+# 2949 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=34
+# 2950 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=34
+# 2951 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=35
+# 2952 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=35
+# 2953 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=36
+# 2954 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=36
+# 2955 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=37
+# 2956 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=37
+# 2957 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=38
+# 2958 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=38
+# 2959 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=39
+# 2960 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=39
+# 2961 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=40
+# 2962 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=40
+# 2963 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=41
+# 2964 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=41
+# 2965 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=42
+# 2966 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=42
+# 2967 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=43
+# 2968 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=43
+# 2969 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=44
+# 2970 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=44
+# 2971 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=45
+# 2972 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=45
+# 2973 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=46
+# 2974 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=46
+# 2975 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=47
+# 2976 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=47
+# 2977 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=48
+# 2978 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=48
+# 2979 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=49
+# 2980 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=49
+# 2981 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=50
+# 2982 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=50
+# 2983 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=51
+# 2984 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=51
+# 2985 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=52
+# 2986 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=52
+# 2987 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=53
+# 2988 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=53
+# 2989 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=54
+# 2990 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=54
+# 2991 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=55
+# 2992 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=55
+# 2993 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=56
+# 2994 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=56
+# 2995 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=57
+# 2996 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=57
+# 2997 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=58
+# 2998 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=58
+# 2999 | rst=0 | clk=1 | hours=0 | minutes=24 | seconds=59
+# 3000 | rst=0 | clk=0 | hours=0 | minutes=24 | seconds=59
+# 3001 | rst=0 | clk=1 | hours=0 | minutes=25 | seconds=0
