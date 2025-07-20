@@ -1,0 +1,58 @@
+module shift_register(
+  input clk,
+  input rst,
+  input load,
+  input s_in,
+  input [3:0] mode,
+  input [7:0] p_in,
+  output reg [7:0]p_out,
+  output reg s_out
+);
+  always@(posedge clk or rst) begin
+    if (rst)
+     out<= 8'b0
+      else begin
+        case(mode)
+         3'b000:begin//SISO=Serial in serial out
+           s_out<= out[0];
+           out<={s_in,out[7:1]};
+         end
+         else begin
+           3'b101 :begin//SIPO=serial in parallel out
+             out<={ s_in,out[7:1]};
+             //no out because parellel out is out
+           end
+           else begin
+             3'b001:begin//PIPO= parellel in parellel out
+               if(load)
+                 out<= p_in;//just load and show data
+                 end
+                   3'b010:begin//PISO= parallel in and serial out
+                     if(load)
+                       out<=p_in;
+                     s_out<= out[0];//output lsb
+                     out<={1'b0,out[7:1]};//
+                           end
+                           end    
+                     3'b100:begin//shift right
+                  out<= {1'b0,out[7:1]};//shift the bits to right
+                     end
+           3'b110:begin//shift left
+             out<={out[6:0],1'b0};
+           end
+           3'b011:begin//rotateright
+             out<={out[0],out[7:1]};
+           end
+           3'b111:begin//rotateleft
+             out<={out[6:0],out[7]};
+           end
+           default:out<= out;
+             endcase
+           end
+         end
+          
+             
+             
+                             
+                             
+           
