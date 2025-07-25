@@ -8,8 +8,8 @@ output Sum, Carry;
 // Gate-level modeling
 xor (Sum, A, B);     // Sum = A ^ B
 and (Carry, A, B);   // Carry = A & B
-
 endmodule
+
 TESTBENCH 
 module tb_half_adder;
 reg A, B;
@@ -20,7 +20,7 @@ half_adder ha (A, B, Sum, Carry);
 
 // Apply all input combinations
 initial begin
-  $display("A B | Sum Carry");
+  $display("A B | Sum Carry");    //display only prints once
   $display("--------------");
   
   A = 0; B = 0; #10;
