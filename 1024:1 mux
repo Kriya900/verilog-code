@@ -1,36 +1,32 @@
 module tb_mux_1024_1;
-    reg [1023:0] in;
+    reg [1023:0] data_in;  // Changed from 'in' to 'data_in' to match original module
     reg [9:0] sel;
     wire out;
 
-    mux_1024_1 uut (
-        .in(in),
+    // Instantiate the original module (mux1024to1)
+    mux1024to1 uut (
+        .data_in(data_in),  // Corrected port name
         .sel(sel),
         .out(out)
     );
-    or mux_1024_1uut ( in,sel,out);
-
     initial begin
-        in = 0;
-        sel = 0;
-
-        // Set input at position 7 to 1
-        in[7] = 1;
+        $monitor("Time = %0t | sel = %d | out = %b", $time, sel, out);
+        // Test case 1: Select input at position 7
+        data_in = 0;
+        data_in[7] = 1;
         sel = 10'd7;
         #10;
-
-        // Set input at position 512 to 1
-        in = 0;
-        in[512] = 1;
+        // Test case 2: Select input at position 512
+        data_in = 0;
+        data_in[512] = 1;
         sel = 10'd512;
         #10;
 
-        // Set input at position 1023 to 1
-        in = 0;
-        in[1023] = 1;
+        // Test case 3: Select input at position 1023
+        data_in = 0;
+        data_in[1023] = 1;
         sel = 10'd1023;
         #10;
-
         $finish;
     end
 endmodule
