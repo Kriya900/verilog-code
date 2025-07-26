@@ -1,27 +1,36 @@
 module tb_decoder_10_1024;
-  reg[9:0]in;
-  wire[1023:0]out;
-      // Instantiate the decoder
+  reg [9:0] in;
+  wire [1023:0] out;
 
-  decoder_10_1024 uut(in,out);
+  // Instantiate the decoder
+  decoder_10_1024 uut (
+    .in(in),
+    .out(out)
+  );
+
   initial begin
-    //Enable vcd waveform dump
-    $dumpfile ("decoder,vcd");// VCD file for GTKWave
-    $dumpvars(0,tb_decoder_10_1024); // Dump all variables in this testbench
-    //Start automatic monitoring
-    $monitor("Time= %0t|in=%d |out[%0d]=%0b", $Time,in,in,out[in]);
-     // 🧪 Test vectors with display after each
-    in= 10'd0; #10;
-    $display ( "in=%d,out[%0d]=%b",in,in ,out[in]);
-    in=10'd1; #10;
-    $display ( "in=%d,out[%0d]=%b",in,in ,out[in]);
-    in =10'd512;  #10;
-        $display ( "in=%d,out[%0d]=%b",in,in ,out[in]);
-    in = 10'd1023;    #10;
-    $display ( "in=%d,out[%0d]=%b",in,in ,out[in]);
+    // Enable VCD waveform dump
+    $dumpfile("decoder.vcd"); // 📁 Corrected: was "decoder,vcd" (comma → dot)
+    $dumpvars(0, tb_decoder_10_1024); // Dump all variables in this testbench
+    // Start automatic monitoring
+    $monitor("Time = %0t | in = %d | out[%0d] = %0b", $time, in, in, out[in]);
+    // 🧪 Test vectors with display after each
+    in = 10'd0; #10;
+    $display("in = %d, out[%0d] = %b", in, in, out[in]);
+
+    in = 10'd1; #10;
+    $display("in = %d, out[%0d] = %b", in, in, out[in]);
+
+    in = 10'd512; #10;
+    $display("in = %d, out[%0d] = %b", in, in, out[in]);
+
+    in = 10'd1023; #10;
+    $display("in = %d, out[%0d] = %b", in, in, out[in]);
+
     $finish;
   end
 endmodule
+
 module decoder_10_1024 (
     input [9:0] in,          // 10-bit input
     output reg [1023:0] out  // 1024 outputs
